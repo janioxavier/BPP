@@ -1,5 +1,9 @@
 package pratica1.floricultura.dominio;
 
+import com.google.java.contract.Ensures;
+import com.google.java.contract.Invariant;
+import com.google.java.contract.Requires;
+
 public class Produto {
 	private String nome;
 	private String tipo;
@@ -29,11 +33,12 @@ public class Produto {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-
+	
 	public double getPreco() {
 		return preco;
 	}
-
+	
+	@Ensures("preco >= 0")
 	public void setPreco(double preco) {
 		this.preco = preco;
 	}
@@ -41,11 +46,13 @@ public class Produto {
 	public int getEstoque() {
 		return estoque;
 	}
-
+	
+	@Ensures("estoque >= 0")
 	public void setEstoque(int estoque) {
 		this.estoque = estoque;
 	}		
-		
+	
+	@Ensures("estoque >= 0")
 	public boolean dimunirEstoque() {
 		boolean isDiminuido = false;
 		

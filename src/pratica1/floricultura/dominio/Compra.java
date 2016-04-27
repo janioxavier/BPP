@@ -54,12 +54,6 @@ public class Compra {
 		produtosComprados.add(produtoComprado);		
 	}
 	
-	@Override
-	public String toString() {
-		return  "Nome do comprador: " + comprador.getNome() + 
-				"\n" + reciboDaCompra();
-				
-	}
 	
 	private String reciboDaCompra() {
 		String recibo = "";
@@ -71,5 +65,12 @@ public class Compra {
 		recibo += "Total da compra: " + getTotalDaCompra();
 		return recibo;
 	}	
+	
+	@Override
+	public String toString() {
+		return  "Nome do comprador: " + comprador.getNome() + 
+				"\n" + reciboDaCompra();
+				
+	}
 	
 }

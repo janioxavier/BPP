@@ -38,10 +38,6 @@ public class Cliente {
 		return RG;
 	}
 	
-	public void efeturarCompra() {
-		
-	}		 
-	
 	@Override
 	public String toString() {
 		return  "Nome: " + nome + "\n" +
