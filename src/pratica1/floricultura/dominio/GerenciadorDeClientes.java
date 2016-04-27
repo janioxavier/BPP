@@ -14,6 +14,23 @@ public class GerenciadorDeClientes {
 		listaDeClientes.add(cliente);
 	}
 	
+	public boolean hasCliente(Cliente cliente) {
+		return listaDeClientes.contains(cliente);		
+	}
+	
+	public Cliente buscarCliente(String nomeDoCliente) {
+		Cliente clienteEncontrado = null;
+		
+		for (Cliente c : listaDeClientes) {
+			if (c.getNome().equals(nomeDoCliente)) {
+				clienteEncontrado = c;
+				break;
+			}
+		}
+		
+		return clienteEncontrado;
+	}
+	
 	public String listarClientesCadastrados() {
 		String listaClientesCadastrados = "";
 		

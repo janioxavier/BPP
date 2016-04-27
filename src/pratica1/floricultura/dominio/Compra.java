@@ -1,15 +1,23 @@
 package pratica1.floricultura.dominio;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Compra {
 	private Cliente comprador;
 	private String dataDaCompra;
-	private double totalDaCompra;
+	private List<Produto> produtosComprados;	
 	
-	public Compra(Cliente comprador, String dataDaCompra, double totalDaCompra) {
-		super();
+	public Compra(Cliente comprador, String dataDaCompra, List<Produto> produtosComprados) {		
 		this.comprador = comprador;
 		this.dataDaCompra = dataDaCompra;
-		this.totalDaCompra = totalDaCompra;
+		this.produtosComprados = produtosComprados;
+	}
+	
+	public Compra(Cliente comprador, String dataDaCompra) {
+		this.comprador = comprador;
+		this.dataDaCompra = dataDaCompra;
+		this.produtosComprados = new ArrayList<>();
 	}
 
 	public Cliente getComprador() {
@@ -29,12 +37,39 @@ public class Compra {
 	}
 
 	public double getTotalDaCompra() {
+		double totalDaCompra = 0.0;
+		
+		for (Produto p : produtosComprados)  {
+			totalDaCompra += p.getPreco();
+		}
+		
 		return totalDaCompra;
 	}
-
-	public void setTotalDaCompra(double totalDaCompra) {
-		this.totalDaCompra = totalDaCompra;
+	
+	public void setProdutosComprados(List<Produto> produtosComprados) {
+		this.produtosComprados = produtosComprados;
 	}
 	
+	public void addProdutoComprado(Produto produtoComprado) {
+		produtosComprados.add(produtoComprado);		
+	}
+	
+	@Override
+	public String toString() {
+		return  "Nome do comprador: " + comprador.getNome() + 
+				"\n" + reciboDaCompra();
+				
+	}
+	
+	private String reciboDaCompra() {
+		String recibo = "";
+		
+		for (Produto p : produtosComprados) {
+			recibo += p.getNome() + "\t" + p.getPreco() + "\n";
+		}
+		
+		recibo += "Total da compra: " + getTotalDaCompra();
+		return recibo;
+	}	
 	
 }

@@ -36,7 +36,11 @@ public class Cliente {
 
 	public String getRG() {
 		return RG;
-	}	
+	}
+	
+	public void efeturarCompra() {
+		
+	}		 
 	
 	@Override
 	public String toString() {

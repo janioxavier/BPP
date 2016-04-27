@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GerenciadorDeProdutos {
 	private List<Produto> listaDeProdutos;
+	private StatusProduto estadoProduto;
 	
 	public GerenciadorDeProdutos() {
 		listaDeProdutos = new ArrayList<>();
@@ -13,24 +14,53 @@ public class GerenciadorDeProdutos {
 	public void addProduto(Produto produto) {
 		listaDeProdutos.add(produto);
 	}
+	
+	public StatusProduto verificarDisponibilidade(String nomeDoProduto) {
+		StatusProduto statusProduto;
+		Produto produtoEncontrado = buscarProduto(nomeDoProduto);
 		
-	public String diminuirEstoque(String nomeDoProduto) {
-		String resultado = "";
-		boolean estoqueDiminuido = false;
-		
-		Produto produtoEncontrado = buscarProduto(nomeDoProduto);		
-		
-		if (produtoEncontrado != null) {					
-			resultado = verificarEstoqueDiminuido(produtoEncontrado);
-		}
-		else {
-			resultado = "Produto não encontrado!";
+		if (produtoEncontrado != null) {
+			statusProduto = verificarDisponibilidade(produtoEncontrado);
+		} else {
+			statusProduto = StatusProduto.INEXISTENTE;
 		}
 		
-		return resultado;
+		return statusProduto;	
 	}
 	
-	private Produto buscarProduto(String nomeDoProduto) {
+	public StatusProduto obterEstadoProduto(Produto produto) {
+		StatusProduto statusProduto;
+		if (produto != null) {
+			statusProduto = verificarDisponibilidade(produto);
+		} else {
+			statusProduto = StatusProduto.INEXISTENTE;
+		}
+		return statusProduto;
+	}
+
+	private StatusProduto verificarDisponibilidade(Produto produtoEncontrado) {
+		StatusProduto statusProduto;
+		
+		if (produtoEncontrado.getEstoque() > 0)
+			statusProduto = StatusProduto.DISPONIVEL;
+		else
+			statusProduto =  StatusProduto.ACABADO;
+		
+		return statusProduto;
+	}
+	
+	public StatusProduto diminuirEstoque(String nomeDoProduto) {
+		Produto produtoEncontrado = buscarProduto(nomeDoProduto);
+		StatusProduto statusProduto = obterEstadoProduto(produtoEncontrado);		
+						
+		if (statusProduto == StatusProduto.DISPONIVEL) {					
+			produtoEncontrado.dimunirEstoque();
+		}		
+		
+		return statusProduto;
+	}
+	
+	public Produto buscarProduto(String nomeDoProduto) {
 		Produto produtoEncontrado = null;
 		
 		for (Produto p : listaDeProdutos) {
@@ -41,16 +71,14 @@ public class GerenciadorDeProdutos {
 		return produtoEncontrado;
 	}
 	
-	private String verificarEstoqueDiminuido(Produto produto) {
-		String resultado = "";
+	private void verificarEstoqueDiminuido(Produto produto) {		
 		
 		if (produto.dimunirEstoque()) {
-			resultado =  "Estoque reduzido";
+			estadoProduto =  estadoProduto.REDUZIDO;
 		}
 		else 
-			resultado = "Não foi possível reduzir o estoque";
-		
-		return resultado;
+			estadoProduto = estadoProduto.ACABADO;
+				
 	}
 	
 	public String listarProdutosCadastrados() {
